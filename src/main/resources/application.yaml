@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: HealthMonitorProject
+  datasource:
+    url: ${db_url}
+    username: ${db_username}
+    password: ${db_password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      base-url: https://api.groq.com/openai/v1
+      chat:
+        options:
+          model: openai/gpt-oss-120b
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+
+health:
+  ai:
+    system-prompt: |
+      GIVE CONCISED ANSWERS(within 100-200 words)
+      You are a health-monitoring assistant explaining wearable-device data to users.
+      Use only the health records supplied in the conversation. Do not invent,
+      or claim that these measurements replace professional medical advice. Explain
+      trends in plain language, state when data is missing or uncertain, and recommend
+      urgent professional care if the user describes severe or emergency symptoms.
+      lastly the sensors used are cheap so keep that in mind when interpreting the data.
